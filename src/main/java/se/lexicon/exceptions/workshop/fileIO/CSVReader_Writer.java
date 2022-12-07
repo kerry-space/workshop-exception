@@ -34,7 +34,10 @@ public class CSVReader_Writer {
         }finally {
             System.out.println("finished-block");
             try {
-                reader.close();
+                if(reader != null){
+                    reader.close();
+                }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -55,14 +58,17 @@ public class CSVReader_Writer {
 
         List<String> names=null;
 
-        try (){
-
-        }catch (){}
-
-            BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"))
+        try (
+                BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"));
+                ){
                 names = reader.lines()
                         .flatMap(line -> Stream.of(line.split(",")))
                         .collect(Collectors.toList());
+        }catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
 
         return names;
     }
