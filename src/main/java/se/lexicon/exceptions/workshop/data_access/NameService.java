@@ -1,8 +1,10 @@
 package se.lexicon.exceptions.workshop.data_access;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
+import se.lexicon.exceptions.workshop.Exceptions.DuplicateNameException;
 import se.lexicon.exceptions.workshop.domain.Gender;
 import se.lexicon.exceptions.workshop.domain.Person;
 import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
@@ -61,7 +63,14 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addFemaleFirstName(String name){
+	    public void addFemaleFirstName(String name)  throws DuplicateNameException {
+			List<String> readNames = CSVReader_Writer.getFemaleFirstNames();
+			for (String readName: readNames){
+				if(readName.equalsIgnoreCase(name)){
+					throw new DuplicateNameException("The female name already exist",name);
+				}
+				
+			}
 	    	femaleFirstNames.add(name);
 	    	CSVReader_Writer.saveFemaleNames(femaleFirstNames);
 	    		
@@ -73,7 +82,13 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addMaleFirstName(String name){
+	    public void addMaleFirstName(String name) throws DuplicateNameException{
+			List<String> readNames = CSVReader_Writer.getMaleFirstNames();
+			for (String readname: readNames){
+				if(readname.equalsIgnoreCase(name)){
+					throw new DuplicateNameException("The male name already exist",name);
+				}
+			}
 	    	maleFirstNames.add(name);
 	        CSVReader_Writer.saveMaleNames(maleFirstNames);
 	    }
@@ -84,10 +99,24 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param lastName
 	     */
-	    public void addLastName(String lastName){
-	    	lastNames.add(lastName);
-	        CSVReader_Writer.saveLastNames(lastNames);
-	    }
+	    public void addLastName(String lastName) throws DuplicateNameException{
+
+			try {
+				List<String> readNames = CSVReader_Writer.getLastNames();
+				for (String readname: readNames){
+					if(readname.equalsIgnoreCase(lastName)){
+						throw new DuplicateNameException("the lastName already exist",lastName);
+					}
+				}
+				lastNames.add(lastName);
+				CSVReader_Writer.saveLastNames(lastNames);
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+
+
+
+		}
 
 
 	
