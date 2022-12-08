@@ -1,5 +1,6 @@
 package se.lexicon.exceptions.workshop;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Main {
 
 
         Person test = nameService.getNewRandomPerson();
-        System.out.println(test);
+        System.out.println(ConsoleColors.BLUE+test+ConsoleColors.RESET);
 
         //object person
 
@@ -39,7 +40,7 @@ public class Main {
             nameService.addMaleFirstName("one");
             nameService.addLastName("test");
 
-            System.out.println("added");
+            System.out.println(ConsoleColors.GREEN+"added"+ConsoleColors.RESET);
 
 
         } catch (DuplicateNameException e) {
